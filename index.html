@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<meta name="theme-color" content="#15181d"/><meta name="apple-mobile-web-app-title" content="Choir Planner"/><link rel="manifest" href="./manifest.webmanifest"/>
+<title>Choir Room Planner v0.7</title><link rel="apple-touch-icon" href="./icon-180.png"><link rel="icon" href="./icon.svg" type="image/svg+xml">
+<style>
+:root{--panel:rgba(24,27,33,.94);--line:rgba(255,255,255,.12);--text:#f7f7f8;--muted:#aeb6c2;--accent:#78a8ff;--danger:#ff7676}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text",system-ui,sans-serif;background:#15181d;color:var(--text);touch-action:none}
+canvas{display:block;width:100%;height:100%;touch-action:none}
+#topbar{position:fixed;z-index:10;top:max(8px,env(safe-area-inset-top));left:8px;right:8px;display:flex;align-items:center;gap:8px;padding:8px 10px;border:1px solid var(--line);border-radius:14px;background:var(--panel);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)}
+#title{font-weight:700;font-size:14px;white-space:nowrap} #status{font-size:12px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1}
+button,select{appearance:none;border:1px solid var(--line);background:#2a2f38;color:var(--text);border-radius:11px;padding:10px 12px;font-weight:600;font-size:14px;min-height:42px}
+button:active{transform:scale(.98)} button.active{outline:2px solid var(--accent);background:#30394a} button.danger{color:#ffd1d1}
+#viewBtns{display:flex;gap:6px}
+#toolbar{position:fixed;z-index:10;left:8px;right:8px;bottom:max(8px,env(safe-area-inset-bottom));display:grid;grid-template-columns:repeat(5,1fr);gap:7px;padding:8px;border:1px solid var(--line);border-radius:16px;background:var(--panel);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)}
+#toolbar button{padding:8px 4px;font-size:12px;min-width:0} #toolbar .ico{display:block;font-size:19px;line-height:20px;margin-bottom:2px}
+#drawer{position:fixed;z-index:11;right:8px;top:68px;width:min(340px,calc(100vw - 16px));max-height:calc(100vh - 150px);overflow:auto;touch-action:pan-y;padding:12px;border:1px solid var(--line);border-radius:14px;background:var(--panel);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);display:none}
+#drawer.open{display:block} #drawer h3{font-size:14px;margin:0 0 8px} #selname{font-size:13px;color:var(--muted);margin-bottom:10px;word-break:break-word}
+.row{display:flex;gap:8px;margin:8px 0} .row>*{flex:1}
+.small{font-size:11px;color:var(--muted);line-height:1.35}
+#toast{position:fixed;z-index:20;left:50%;transform:translateX(-50%);top:80px;background:#111d;color:#fff;padding:9px 12px;border-radius:999px;border:1px solid var(--line);font-size:12px;opacity:0;pointer-events:none;transition:opacity .18s} #toast.show{opacity:1}
+@media (max-width:700px){#title{display:none} #topbar{padding:6px 7px} #status{font-size:11px} #viewBtns button{padding:8px 10px;min-height:38px;font-size:12px}}
+@media (orientation:landscape) and (max-height:520px){#topbar{right:auto;width:min(520px,65vw)} #toolbar{left:auto;width:360px;grid-template-columns:repeat(5,1fr)} #drawer{top:62px;bottom:70px;max-height:none;width:300px}}
+</style></head>
+<body>
+<div id="topbar"><div id="title">Choir Room Planner v0.7</div><div id="status">Loading room…</div><div id="viewBtns"><button id="view3d" class="active">3D</button><button id="viewTop">Top</button><button id="menu">☰</button></div></div>
+<div id="drawer">
+  <h3>Selected object</h3><div id="selname">Nothing selected</div>
+  <div class="row"><button id="lockBtn">🔓 Lock</button><button id="focusBtn">◎ Focus</button></div>
+  <div class="row"><button id="saveBtn">Save layout</button><button id="loadBtn">Load layout</button></div>
+  <div class="row"><button id="undoBtn">↶ Undo</button><button id="redoBtn">↷ Redo</button></div>
+  <div class="row"><button id="resetBtn">Reset room</button><button id="exportBtn">Export JSON</button></div>
+  <div class="row"><button id="importBtn">Import JSON</button><button id="roofBtn">Show ceilings</button></div><input id="importFile" type="file" accept=".json,application/json" hidden>
+  <div class="small">Touch: one finger orbits • two fingers pan/zoom • tap object to select. Use Move/Rotate, then drag the colored gizmo. Locked architecture cannot be moved.</div>
+</div>
+<div id="toolbar">
+<button id="select" class="active"><span class="ico">☝️</span>Select</button>
+<button id="move"><span class="ico">↔️</span>Move</button>
+<button id="rotate"><span class="ico">↻</span>Rotate</button>
+<button id="duplicate"><span class="ico">⧉</span>Duplicate</button>
+<button id="delete" class="danger"><span class="ico">⌫</span>Delete</button>
+</div>
+<div id="toast"></div>
+<script>
+(function(){
+  const statusEl = document.getElementById('status');
+  if (location.protocol === 'file:') statusEl.textContent='Open from your GitHub Pages URL, not Files';
+  let startupDone = false; let startupFailed = false;
+  window.__plannerFail = function(msg){
+    if (startupDone) return;
+    startupFailed = true; statusEl.textContent = msg;
+    statusEl.style.color = '#ffb4b4';
+  };
+  window.addEventListener('error', function(e){ window.__plannerFail('Startup error — '+(e.message||'unknown error')); });
+  setTimeout(function(){ if(!startupDone && !startupFailed) window.__plannerFail('Still loading — check internet access, then reload.'); }, 12000);
+  window.__plannerReady = function(){ startupDone = true; statusEl.style.color=''; };
+})();
+</script>
+<script src="./vendor/three.min.js" onerror="__plannerFail('Could not load 3D engine — internet/CDN blocked')"></script>
+<script src="./vendor/OrbitControls.js" onerror="__plannerFail('Could not load touch controls')"></script>
+<script src="./vendor/TransformControls.js" onerror="__plannerFail('Could not load edit controls')"></script>
+<script src="./vendor/GLTFLoader.js" onerror="__plannerFail('Could not load model loader')"></script>
+<script>
+if (!window.THREE || !THREE.OrbitControls || !THREE.TransformControls || !THREE.GLTFLoader) {
+  __plannerFail('3D libraries unavailable — open with an internet connection and reload.');
+  throw new Error('Required Three.js libraries unavailable');
+}
+
+const MODEL_DATA='./room.glb';
+const scene=new THREE.Scene(); scene.background=new THREE.Color(0x20242a);
+scene.add(new THREE.HemisphereLight(0xffffff,0x4a4d55,2.4));
+const dl=new THREE.DirectionalLight(0xffffff,2.0); dl.position.set(10,22,12); scene.add(dl);
+const camera=new THREE.PerspectiveCamera(55,innerWidth/innerHeight,.04,250); camera.position.set(14,11,18);
+const renderer=new THREE.WebGLRenderer({antialias:true,powerPreference:'high-performance'}); renderer.setPixelRatio(Math.min(devicePixelRatio,2)); renderer.setSize(innerWidth,innerHeight); renderer.outputEncoding=THREE.sRGBEncoding; document.body.appendChild(renderer.domElement);
+const orbit=new THREE.OrbitControls(camera,renderer.domElement); orbit.target.set(0,1.2,0); orbit.enableDamping=true; orbit.dampingFactor=.08; orbit.minDistance=1; orbit.maxDistance=70; orbit.maxPolarAngle=Math.PI*.495; orbit.update();
+const tc=new THREE.TransformControls(camera,renderer.domElement); scene.add(tc); tc.setSize(.9); tc.addEventListener('dragging-changed',e=>orbit.enabled=!e.value);
+const grid=new THREE.GridHelper(32,64,0x56606f,0x343a44);grid.position.y=-.15;scene.add(grid);
+const status=document.querySelector('#status'), selname=document.querySelector('#selname'), drawer=document.querySelector('#drawer');
+let root=null,selected=null,mode='select',snapshot=null,history=[],redo=[]; const locked=new WeakSet();
+const templates=new Map(); let initialState=null; let copyCounter=0; let showCeilings=false;
+function toast(s){const t=document.querySelector('#toast');t.textContent=s;t.classList.add('show');clearTimeout(t._x);t._x=setTimeout(()=>t.classList.remove('show'),1400)}
+function isArchitecture(o){const n=(o.name||'').toLowerCase(); return /wall|floor|ceiling|wing|riser|stair|rail|window|door|cabinet|whiteboard|display/.test(n)}
+function findEditable(o){while(o&&o!==root){if(o.parent===root)return o;o=o.parent}return null}
+function setSelection(o){if(selected===o)return;tc.detach();selected=o;if(!o){selname.textContent='Nothing selected';status.textContent='Tap an object to select it.';return}selname.textContent=o.name||'Unnamed object';status.textContent='Selected: '+(o.name||'object');if(!locked.has(o)&&mode!=='select'){tc.setMode(mode);tc.attach(o)};document.querySelector('#lockBtn').textContent=isArchitecture(o)?'🔒 Protected':locked.has(o)?'🔒 Unlock':'🔓 Lock'}
+function snapshotState(){if(!root)return null;return root.children.map(o=>({id:o.userData.layoutId,source:o.userData.source,n:o.name,p:o.position.toArray(),q:o.quaternion.toArray(),s:o.scale.toArray(),v:o.visible,locked:locked.has(o)}))}
+function validateState(a){
+ if(!Array.isArray(a)||a.length>2000)throw new Error('Invalid layout');
+ const ids=new Set();return a.map(x=>{
+ const source=x.source||x.n; const id=x.id||source;
+ if(!templates.has(source)||typeof id!=='string'||ids.has(id)||typeof x.n!=='string')throw new Error('Unknown or duplicate object');ids.add(id);
+ for(const [k,n] of [['p',3],['q',4],['s',3]])if(!Array.isArray(x[k])||x[k].length!==n||!x[k].every(v=>Number.isFinite(v)&&Math.abs(v)<10000))throw new Error('Invalid transform');
+ if(x.s.some(v=>v<=0)||Math.hypot(...x.q)<.001)throw new Error('Invalid transform');
+ return {...x,id,source};});
+}
+function applyState(input){if(!root||!input)return;const a=validateState(input);setSelection(null);
+ root.children.filter(o=>o.userData.layoutId!==o.userData.source).forEach(o=>root.remove(o));
+ for(const x of a){const original=templates.get(x.source);if(isArchitecture(original))continue;
+ let o=root.children.find(z=>z.userData.layoutId===x.id);
+ if(!o){o=original.clone(true);root.add(o)}
+ o.userData.layoutId=x.id;o.userData.source=x.source;o.name=x.n;o.position.fromArray(x.p);o.quaternion.fromArray(x.q).normalize();o.scale.fromArray(x.s);o.visible=x.v!==false;
+ if(x.locked)locked.add(o);else locked.delete(o);
+ }
+}
+function pushHistory(){const s=snapshotState();if(s){history.push(s);if(history.length>30)history.shift();redo=[]}}
+tc.addEventListener('mouseDown',()=>{snapshot=snapshotState()});tc.addEventListener('mouseUp',()=>{if(snapshot){history.push(snapshot);if(history.length>30)history.shift();redo=[];snapshot=null}});
+new THREE.GLTFLoader().load(MODEL_DATA,g=>{
+ g.scene.rotation.x=-Math.PI/2;scene.add(g.scene);root=g.scene.getObjectByName('world')||g.scene;
+ root.children.forEach(o=>{
+ // Center each mesh's edit pivot without changing its rendered geometry.
+ if(o.isMesh){o.geometry=o.geometry.clone();o.geometry.computeBoundingBox();const c=o.geometry.boundingBox.getCenter(new THREE.Vector3());o.geometry.translate(-c.x,-c.y,-c.z);o.position.add(c.applyQuaternion(o.quaternion).multiply(o.scale));}
+ o.userData.layoutId=o.name;o.userData.source=o.name;
+ if(isArchitecture(o))locked.add(o);
+ if(/ceiling/i.test(o.name)&&!/floor/i.test(o.name))o.visible=false;
+ templates.set(o.name,o.clone(true));
+ });g.scene.updateMatrixWorld(true);initialState=snapshotState();status.textContent='Room loaded — tap an object.';window.__plannerReady();fitRoom();
+},undefined,e=>{window.__plannerFail('Could not load room model — check room.glb and reload');console.error(e)});
+function fitRoom(){if(!root)return;const box=new THREE.Box3().setFromObject(root),c=box.getCenter(new THREE.Vector3()),size=box.getSize(new THREE.Vector3());orbit.target.copy(c);const distance=Math.max(size.x/camera.aspect,size.length())*1.35;camera.position.copy(c).add(new THREE.Vector3(.8,.8,1).normalize().multiplyScalar(distance));camera.lookAt(c);orbit.update()}
+const ray=new THREE.Raycaster(), pointer=new THREE.Vector2();let down={x:0,y:0,t:0};
+renderer.domElement.addEventListener('pointerdown',e=>{down={x:e.clientX,y:e.clientY,t:performance.now(),gizmo:!!tc.axis}},{passive:true});
+renderer.domElement.addEventListener('pointerup',e=>{if(tc.dragging||down.gizmo||!root)return;const d=Math.hypot(e.clientX-down.x,e.clientY-down.y);if(d>12||performance.now()-down.t>450)return;pointer.x=e.clientX/innerWidth*2-1;pointer.y=-(e.clientY/innerHeight)*2+1;ray.setFromCamera(pointer,camera);const hits=ray.intersectObject(root,true);const hit=hits.find(h=>{let o=h.object;while(o&&o!==root){if(!o.visible)return false;o=o.parent}return true});if(hit)setSelection(findEditable(hit.object));else setSelection(null)},{passive:true});
+function setMode(m){mode=m;document.querySelectorAll('#toolbar button').forEach(b=>b.classList.remove('active'));const id=m==='translate'?'move':m==='rotate'?'rotate':'select';document.querySelector('#'+id).classList.add('active');if(selected&&!locked.has(selected)&&m!=='select'){tc.setMode(m);tc.attach(selected)}else tc.detach();}
+document.querySelector('#select').onclick=()=>setMode('select'); document.querySelector('#move').onclick=()=>setMode('translate'); document.querySelector('#rotate').onclick=()=>setMode('rotate');
+document.querySelector('#duplicate').onclick=()=>{if(!selected||locked.has(selected))return toast('Select an unlocked object');pushHistory();const c=selected.clone(true);c.name=(selected.name||'Object')+' copy';c.userData.layoutId='copy-'+Date.now()+'-'+(++copyCounter);c.position.x+=.6;selected.parent.add(c);setSelection(c);setMode('translate');toast('Duplicated')};
+document.querySelector('#delete').onclick=()=>{if(!selected||locked.has(selected))return toast('Locked objects cannot be deleted');pushHistory();tc.detach();selected.visible=false;setSelection(null);toast('Hidden (undo available)')};
+document.querySelector('#menu').onclick=()=>drawer.classList.toggle('open');
+document.querySelector('#lockBtn').onclick=()=>{if(!selected)return;if(isArchitecture(selected))return toast('Architecture is protected');if(locked.has(selected)){locked.delete(selected);toast('Unlocked')}else{locked.add(selected);tc.detach();toast('Locked')};document.querySelector('#lockBtn').textContent=locked.has(selected)?'🔒 Unlock':'🔓 Lock'};
+document.querySelector('#focusBtn').onclick=()=>{if(!selected)return;const b=new THREE.Box3().setFromObject(selected),c=b.getCenter(new THREE.Vector3()),s=b.getSize(new THREE.Vector3()).length();orbit.target.copy(c);const dir=new THREE.Vector3().subVectors(camera.position,c).normalize();camera.position.copy(c).add(dir.multiplyScalar(Math.max(2,s*2.2)));orbit.update()};
+function topView(){if(!root)return;const box=new THREE.Box3().setFromObject(root),c=box.getCenter(new THREE.Vector3()),s=box.getSize(new THREE.Vector3());camera.position.set(c.x,c.y+Math.max(s.x/camera.aspect,s.z)*1.35,c.z+.001);camera.up.set(0,1,0);camera.lookAt(c);orbit.target.copy(c);orbit.update();document.querySelector('#viewTop').classList.add('active');document.querySelector('#view3d').classList.remove('active')}
+function view3d(){camera.up.set(0,1,0);fitRoom();document.querySelector('#view3d').classList.add('active');document.querySelector('#viewTop').classList.remove('active')}
+document.querySelector('#viewTop').onclick=topView;document.querySelector('#view3d').onclick=view3d;
+function safeAction(fn){try{if(!root)return toast('Room is not ready');fn()}catch(e){toast(e.message||'Action failed');console.error(e)}}
+document.querySelector('#saveBtn').onclick=()=>safeAction(()=>{localStorage.setItem('choirRoomLayoutV07',JSON.stringify(snapshotState()));toast('Layout saved on this device')});
+document.querySelector('#loadBtn').onclick=()=>safeAction(()=>{const x=localStorage.getItem('choirRoomLayoutV07');if(!x)return toast('No saved layout yet');const a=validateState(JSON.parse(x));pushHistory();applyState(a);toast('Layout loaded')});
+document.querySelector('#undoBtn').onclick=()=>{if(!history.length)return toast('Nothing to undo');redo.push(snapshotState());applyState(history.pop());toast('Undo')};
+document.querySelector('#redoBtn').onclick=()=>{if(!redo.length)return toast('Nothing to redo');history.push(snapshotState());applyState(redo.pop());toast('Redo')};
+document.querySelector('#resetBtn').onclick=()=>safeAction(()=>{pushHistory();applyState(initialState);toast('Room reset')});
+document.querySelector('#exportBtn').onclick=()=>safeAction(()=>{const blob=new Blob([JSON.stringify(snapshotState(),null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='choir-room-layout.json';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);toast('Layout exported')});
+document.querySelector('#importBtn').onclick=()=>document.querySelector('#importFile').click();
+document.querySelector('#importFile').onchange=async e=>{const f=e.target.files[0];if(!f)return;try{if(f.size>2000000)throw new Error('Layout file too large');const a=validateState(JSON.parse(await f.text()));pushHistory();applyState(a);toast('Layout imported — Save to keep it')}catch(err){toast('Import failed: '+err.message)}e.target.value=''};
+document.querySelector('#roofBtn').onclick=()=>{if(!root)return;showCeilings=!showCeilings;root.children.filter(o=>/ceiling/i.test(o.name)&&!/floor/i.test(o.name)).forEach(o=>o.visible=showCeilings);document.querySelector('#roofBtn').textContent=showCeilings?'Hide ceilings':'Show ceilings'};
+renderer.domElement.addEventListener('webglcontextlost',e=>{e.preventDefault();status.textContent='3D graphics interrupted — reload to continue';status.style.color='#ffb4b4'});
+addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);renderer.setPixelRatio(Math.min(devicePixelRatio,2))});
+function animate(){requestAnimationFrame(animate);orbit.update();renderer.render(scene,camera)} animate();
+</script></body></html>
