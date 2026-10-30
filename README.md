@@ -4,6 +4,8 @@ A free, mobile-friendly 3D room-layout planner using an approximate classroom re
 
 **Open:** https://CAButtars.github.io/choir-room-planner/
 
+**New v0.9 preview:** https://cabuttars.github.io/choir-room-planner/preview/ — an updated reconstruction with editable furniture, eye-level navigation and category visibility. Geometry is still under review. The original planner above remains available. Preview layouts use separate browser storage; do not import original-version layouts into the rebuilt model. See [preview instructions](preview/README.md).
+
 ## Use the planner
 
 - Drag the room to orbit; use two fingers to pan/zoom on touch devices, or the mouse wheel to zoom. **Top** opens an overhead view; **3D** returns to the room view.
