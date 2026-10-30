@@ -70,7 +70,7 @@ if (!window.THREE || !THREE.OrbitControls || !THREE.TransformControls || !THREE.
   throw new Error('Required Three.js libraries unavailable');
 }
 
-const MODEL_DATA='./room-review.glb?v=finish2';
+const MODEL_DATA='./room-review.glb?v=reference1';
 const scene=new THREE.Scene(); scene.background=new THREE.Color(0x20242a);
 scene.add(new THREE.HemisphereLight(0xe5efff,0x615849,.72));
 const dl=new THREE.DirectionalLight(0xfff1da,1.05); dl.position.set(-3,8,-4); dl.target.position.set(0,0,-7);scene.add(dl.target);scene.add(dl);const windowFill=new THREE.DirectionalLight(0xd7e7ff,.38);windowFill.position.set(-9,5,-6);scene.add(windowFill);dl.castShadow=true;dl.shadow.mapSize.set(1024,1024);Object.assign(dl.shadow.camera,{left:-18,right:18,top:18,bottom:-18,near:.5,far:60});dl.shadow.bias=-.0005;dl.shadow.normalBias=.025;
