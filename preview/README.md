@@ -28,8 +28,10 @@ GitHub Pages serves this folder at `/preview/`. Update only the curated preview 
 
 Local desktop Chromium and emulated touch tests cover rendering, navigation, object selection, move/rotate, duplicate, hide, undo/redo, save/reload, JSON export/import, architecture protection, phone/tablet layouts and visible startup errors. Geometry checks cover terrace construction, chair and rail support, and intended door clearances. These checks do not certify physical measurements.
 
-Physical iPhone/iPad Safari performance and gestures still need device verification. The web model is approximately 2.7 MB with 34,942 triangles. The front work area and several architectural details remain simplified.
+Physical iPhone/iPad Safari performance and gestures still need device verification. The web model is approximately 2.8 MB with 65,302 triangles. The front work area and several architectural details remain simplified.
 
 ## Material and lighting update
 
 The first visual finish pass adds meter-scaled carpet flecks, subtle cabinet grain, chair weave, plaster surface detail, piano reflections and brighter interior fill lighting. Textures and the reflection environment are generated locally; no reference imagery is published. Object identities, geometry and layout storage remain unchanged. This improves material realism but does not make the provisional geometry a photographically accurate twin.
+
+The second detail pass refines rounded chair seats and curved backs, adds ventilation-grille surfaces and upright-piano panel details, and uses brass pedal hardware. Plain unprinted pages suggest an open score without copying reference documents. Furniture layout identities and positions remain compatible with existing preview saves.
