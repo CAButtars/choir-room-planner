@@ -39,3 +39,7 @@ The second detail pass refines rounded chair seats and curved backs, adds ventil
 ## Reference-guided surface pass
 
 The carpet now uses an AI-synthesized swatch guided by the supplied carpet appearance, rather than wrapping a classroom photograph onto the room. Tan lower-wall finishes, pale upper acoustic-panel joints, smaller cabinet pulls, and recessed rear-speaker cones follow visible reference features. Joint spacing and furniture dimensions remain estimated. No room photographs, identifying text, or private comparison pages are included. Existing furniture-layout identities and positions remain compatible.
+
+## Riser-end review update
+
+Two straight riser fronts beside the upright-piano aisle were provisionally corrected using local scan evidence; poorly supported ends were left unchanged. The menu now offers **Face risers** and **Side aisle** interior views, with ceilings visible and eye-level movement enabled. Trim projects slightly from the walls to prevent overlapping-surface flicker. Furniture positions, editable IDs and layout storage are unchanged. These corrections do not certify staircase dimensions or architectural accuracy.

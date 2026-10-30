@@ -35,7 +35,7 @@ button:active{transform:scale(.98)} button.active{outline:2px solid var(--accent
   <div class="row"><button id="undoBtn">↶ Undo</button><button id="redoBtn">↷ Redo</button></div>
   <div class="row"><button id="resetBtn">Reset room</button><button id="exportBtn">Export JSON</button></div>
   <div class="row"><button id="importBtn">Import JSON</button><button id="roofBtn">Show ceilings</button></div><input id="importFile" type="file" accept=".json,application/json" hidden>
-  <h3>Visible categories</h3><div class="categoryButtons"><button data-category="walls">Walls</button><button data-category="chairs">Chairs</button><button data-category="pianos">Pianos</button><button data-category="cabinets">Cabinets</button><button data-category="risers">Risers</button><button data-category="fixtures">Fixtures</button></div><p class="small">Chair count and arrangement are provisional. Eye view: drag to look, use arrows to step. No collision detection.</p><div class="small">Touch: one finger orbits • two fingers pan/zoom • tap object to select. Use Move/Rotate, then drag the colored gizmo. Locked architecture cannot be moved.</div>
+  <h3>Room review views</h3><div class="row"><button id="reviewRear">Face risers</button><button id="reviewAisle">Side aisle</button></div><h3>Visible categories</h3><div class="categoryButtons"><button data-category="walls">Walls</button><button data-category="chairs">Chairs</button><button data-category="pianos">Pianos</button><button data-category="cabinets">Cabinets</button><button data-category="risers">Risers</button><button data-category="fixtures">Fixtures</button></div><p class="small">Chair count and arrangement are provisional. Eye view: drag to look, use arrows to step. No collision detection.</p><div class="small">Touch: one finger orbits • two fingers pan/zoom • tap object to select. Use Move/Rotate, then drag the colored gizmo. Locked architecture cannot be moved.</div>
 </div>
 <div id="toolbar">
 <button id="select" class="active"><span class="ico">☝️</span>Select</button>
@@ -70,7 +70,7 @@ if (!window.THREE || !THREE.OrbitControls || !THREE.TransformControls || !THREE.
   throw new Error('Required Three.js libraries unavailable');
 }
 
-const MODEL_DATA='./room-review.glb?v=reference1';
+const MODEL_DATA='./room-review.glb?v=ends1';
 const scene=new THREE.Scene(); scene.background=new THREE.Color(0x20242a);
 scene.add(new THREE.HemisphereLight(0xe5efff,0x615849,.72));
 const dl=new THREE.DirectionalLight(0xfff1da,1.05); dl.position.set(-3,8,-4); dl.target.position.set(0,0,-7);scene.add(dl.target);scene.add(dl);const windowFill=new THREE.DirectionalLight(0xd7e7ff,.38);windowFill.position.set(-9,5,-6);scene.add(windowFill);dl.castShadow=true;dl.shadow.mapSize.set(1024,1024);Object.assign(dl.shadow.camera,{left:-18,right:18,top:18,bottom:-18,near:.5,far:60});dl.shadow.bias=-.0005;dl.shadow.normalBias=.025;
@@ -152,6 +152,9 @@ document.querySelector('#importFile').onchange=async e=>{const f=e.target.files[
 document.querySelector('#roofBtn').onclick=()=>{showCeilings=!showCeilings;for(const cat of ['ceilings','lights'])showCeilings?hiddenCategories.delete(cat):hiddenCategories.add(cat);updateVisibility();document.querySelector('#roofBtn').textContent=showCeilings?'Hide ceilings':'Show ceilings'};
 document.querySelectorAll('[data-category]').forEach(b=>b.onclick=()=>{const cat=b.dataset.category;hiddenCategories.has(cat)?hiddenCategories.delete(cat):hiddenCategories.add(cat);b.classList.toggle('active',hiddenCategories.has(cat));updateVisibility()});
 document.querySelector('#viewEye').onclick=()=>{if(!root)return;setMode('select');eyeMode=true;camera.position.set(1.24,1.65,-2.6);orbit.target.set(1.24,1.65,-2.8);orbit.minDistance=.2;orbit.maxDistance=.2;orbit.enableZoom=false;orbit.enablePan=false;orbit.update();document.querySelector('#walkControls').hidden=false;document.querySelector('#viewEye').classList.add('active');document.querySelector('#viewTop').classList.remove('active');document.querySelector('#view3d').classList.remove('active')};
+function reviewView(position,target){document.querySelector('#viewEye').click();camera.position.fromArray(position);orbit.target.fromArray(target);orbit.target.sub(camera.position).normalize().multiplyScalar(.2).add(camera.position);showCeilings=true;hiddenCategories.delete('ceilings');hiddenCategories.delete('lights');updateVisibility();document.querySelector('#roofBtn').textContent='Hide ceilings';drawer.classList.remove('open');orbit.update()}
+document.querySelector('#reviewRear').onclick=()=>reviewView([0,1.65,-.5],[0,1.65,-13]);
+document.querySelector('#reviewAisle').onclick=()=>reviewView([7.14,1.65,-3.8],[6.04,1.7,-12.6]);
 function step(direction){if(!eyeMode)return;const v=orbit.target.clone().sub(camera.position);v.y=0;v.normalize();if(direction==='back')v.negate();if(direction==='left'||direction==='right'){v.cross(new THREE.Vector3(0,1,0));if(direction==='left')v.negate()}v.multiplyScalar(.45);camera.position.add(v);orbit.target.add(v);orbit.update()}
 document.querySelectorAll('[data-step]').forEach(b=>b.onclick=()=>step(b.dataset.step));
 addEventListener('keydown',e=>{if(!eyeMode||e.target.matches('input,textarea,select'))return;const dir={w:'forward',s:'back',a:'left',d:'right',ArrowUp:'forward',ArrowDown:'back',ArrowLeft:'left',ArrowRight:'right'}[e.key];if(dir){e.preventDefault();step(dir)}});
