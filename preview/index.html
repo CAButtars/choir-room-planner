@@ -70,10 +70,10 @@ if (!window.THREE || !THREE.OrbitControls || !THREE.TransformControls || !THREE.
   throw new Error('Required Three.js libraries unavailable');
 }
 
-const MODEL_DATA='./room-review.glb?v=ends1';
+const MODEL_DATA='./room-review.glb?v=light1';
 const scene=new THREE.Scene(); scene.background=new THREE.Color(0x20242a);
-scene.add(new THREE.HemisphereLight(0xe5efff,0x615849,.72));
-const dl=new THREE.DirectionalLight(0xfff1da,1.05); dl.position.set(-3,8,-4); dl.target.position.set(0,0,-7);scene.add(dl.target);scene.add(dl);const windowFill=new THREE.DirectionalLight(0xd7e7ff,.38);windowFill.position.set(-9,5,-6);scene.add(windowFill);dl.castShadow=true;dl.shadow.mapSize.set(1024,1024);Object.assign(dl.shadow.camera,{left:-18,right:18,top:18,bottom:-18,near:.5,far:60});dl.shadow.bias=-.0005;dl.shadow.normalBias=.025;
+scene.add(new THREE.HemisphereLight(0xe5efff,0x615849,.52));
+const dl=new THREE.DirectionalLight(0xfff1da,1.05); dl.position.set(-3,8,-4); dl.target.position.set(0,0,-7);scene.add(dl.target);scene.add(dl);const windowFill=new THREE.DirectionalLight(0xd7e7ff,.38);windowFill.position.set(-9,5,-6);scene.add(windowFill);dl.castShadow=true;const shadowSize=matchMedia("(pointer:coarse)").matches?1024:2048;dl.shadow.mapSize.set(shadowSize,shadowSize);Object.assign(dl.shadow.camera,{left:-12,right:12,top:12,bottom:-12,near:.5,far:60});dl.shadow.bias=-.00015;dl.shadow.normalBias=.008;
 const camera=new THREE.PerspectiveCamera(55,innerWidth/innerHeight,.04,250); camera.position.set(14,11,18);
 const renderer=new THREE.WebGLRenderer({antialias:true,powerPreference:'high-performance'}); renderer.setPixelRatio(Math.min(devicePixelRatio,1.5)); renderer.setSize(innerWidth,innerHeight); renderer.outputEncoding=THREE.sRGBEncoding;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.05;renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap; document.body.appendChild(renderer.domElement);
 const reflectionScene=new THREE.Scene();reflectionScene.background=new THREE.Color(0x77736b);
@@ -115,7 +115,7 @@ function pushHistory(){const s=snapshotState();if(s){history.push(s);if(history.
 tc.addEventListener('mouseDown',()=>{snapshot=snapshotState()});tc.addEventListener('mouseUp',()=>{if(snapshot){history.push(snapshot);if(history.length>30)history.shift();redo=[];snapshot=null}});
 new THREE.GLTFLoader().load(MODEL_DATA,g=>{
  scene.add(g.scene);root=g.scene;
- root.traverse(o=>{if(o.isMesh){o.castShadow=!['ceilings','lights'].includes(o.userData.category);o.receiveShadow=true;for(const m of (Array.isArray(o.material)?o.material:[o.material])){if(m){m.envMapIntensity=.38;for(const map of [m.map,m.normalMap])if(map)map.anisotropy=Math.min(4,renderer.capabilities.getMaxAnisotropy())}};if(o.material)o.material.side=THREE.DoubleSide}});
+ root.traverse(o=>{if(o.isMesh){o.castShadow=!['ceilings','lights'].includes(o.userData.category);o.receiveShadow=true;for(const m of (Array.isArray(o.material)?o.material:[o.material])){if(m){m.envMapIntensity=.28;for(const map of [m.map,m.normalMap])if(map)map.anisotropy=Math.min(4,renderer.capabilities.getMaxAnisotropy())}};if(o.material)o.material.side=THREE.DoubleSide}});
  root.children.forEach(o=>{
  // Center each mesh's edit pivot without changing its rendered geometry.
  if(o.isMesh){o.geometry=o.geometry.clone();o.geometry.computeBoundingBox();const c=o.geometry.boundingBox.getCenter(new THREE.Vector3());o.geometry.translate(-c.x,-c.y,-c.z);o.position.add(c.applyQuaternion(o.quaternion).multiply(o.scale));}

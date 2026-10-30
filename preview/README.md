@@ -28,7 +28,7 @@ GitHub Pages serves this folder at `/preview/`. Update only the curated preview 
 
 Local desktop Chromium and emulated touch tests cover rendering, navigation, object selection, move/rotate, duplicate, hide, undo/redo, save/reload, JSON export/import, architecture protection, phone/tablet layouts and visible startup errors. Geometry checks cover terrace construction, chair and rail support, and intended door clearances. These checks do not certify physical measurements.
 
-Physical iPhone/iPad Safari performance and gestures still need device verification. The web model is approximately 3.0 MB with 65,558 triangles. The front work area and several architectural details remain simplified.
+Physical iPhone/iPad Safari performance and gestures still need device verification. The web model is approximately 2.9 MB with 64,902 triangles. The front work area and several architectural details remain simplified.
 
 ## Material and lighting update
 
@@ -43,3 +43,7 @@ The carpet now uses an AI-synthesized swatch guided by the supplied carpet appea
 ## Riser-end review update
 
 Two straight riser fronts beside the upright-piano aisle were provisionally corrected using local scan evidence; poorly supported ends were left unchanged. The menu now offers **Face risers** and **Side aisle** interior views, with ceilings visible and eye-level movement enabled. Trim projects slightly from the walls to prevent overlapping-surface flicker. Furniture positions, editable IDs and layout storage are unchanged. These corrections do not certify staircase dimensions or architectural accuracy.
+
+## Window-side correction and lighting refinement
+
+The big-window side has no railing, as confirmed by the room owner. That railing has been removed; the opposite aisle railing remains. Carpet reflectance is darker and cooler, ambient fill is reduced, and shadow coverage is concentrated around the room. Desktop uses a 2048-pixel shadow map; touch devices retain 1024 pixels. These are visual approximations, not calibrated lighting or baked global illumination. Furniture identities, positions and saved-layout storage remain compatible.
