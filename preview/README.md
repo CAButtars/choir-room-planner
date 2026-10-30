@@ -28,7 +28,7 @@ GitHub Pages serves this folder at `/preview/`. Update only the curated preview 
 
 Local desktop Chromium and emulated touch tests cover rendering, navigation, object selection, move/rotate, duplicate, hide, undo/redo, save/reload, JSON export/import, architecture protection, phone/tablet layouts and visible startup errors. Geometry checks cover terrace construction, chair and rail support, and intended door clearances. These checks do not certify physical measurements.
 
-Physical iPhone/iPad Safari performance and gestures still need device verification. The web model is approximately 2.9 MB with 64,902 triangles. The front work area and several architectural details remain simplified.
+Physical iPhone/iPad Safari performance and gestures still need device verification. The web model is approximately 3.0 MB with 65,606 triangles. The front work area and several architectural details remain simplified.
 
 ## Material and lighting update
 
@@ -47,3 +47,9 @@ Two straight riser fronts beside the upright-piano aisle were provisionally corr
 ## Window-side correction and lighting refinement
 
 The big-window side has no railing, as confirmed by the room owner. That railing has been removed; the opposite aisle railing remains. Carpet reflectance is darker and cooler, ambient fill is reduced, and shadow coverage is concentrated around the room. Desktop uses a 2048-pixel shadow map; touch devices retain 1024 pixels. These are visual approximations, not calibrated lighting or baked global illumination. Furniture identities, positions and saved-layout storage remain compatible.
+
+## First phone-measurement update
+
+The inner riser arc now has an 18-foot span at its provisional straight-end junctions. The grand piano uses approximately 58-inch width and 65-inch length, and the upright uses 56-inch width and 41-inch case height. The smart board has a 76 x 47-inch housing on a wheeled cart with a shelf and braces, and is now selectable and movable as one object.
+
+These dimensions come from approximate phone measurements, with some endpoint interpretation still pending. Other tiers, access steps and ceiling dimensions remain under review. Piano shapes remain simplified. Existing furniture IDs and pivots are retained; resized furniture may require spacing adjustments in tightly packed layouts. Old protected display and removed window-side railing records are ignored when restoring previous preview saves. Export JSON before updating for a backup. Original photographs, screen content and scan remain private.

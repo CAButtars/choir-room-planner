@@ -70,7 +70,7 @@ if (!window.THREE || !THREE.OrbitControls || !THREE.TransformControls || !THREE.
   throw new Error('Required Three.js libraries unavailable');
 }
 
-const MODEL_DATA='./room-review.glb?v=light1';
+const MODEL_DATA='./room-review.glb?v=measure1';
 const scene=new THREE.Scene(); scene.background=new THREE.Color(0x20242a);
 scene.add(new THREE.HemisphereLight(0xe5efff,0x615849,.52));
 const dl=new THREE.DirectionalLight(0xfff1da,1.05); dl.position.set(-3,8,-4); dl.target.position.set(0,0,-7);scene.add(dl.target);scene.add(dl);const windowFill=new THREE.DirectionalLight(0xd7e7ff,.38);windowFill.position.set(-9,5,-6);scene.add(windowFill);dl.castShadow=true;const shadowSize=matchMedia("(pointer:coarse)").matches?1024:2048;dl.shadow.mapSize.set(shadowSize,shadowSize);Object.assign(dl.shadow.camera,{left:-12,right:12,top:12,bottom:-12,near:.5,far:60});dl.shadow.bias=-.00015;dl.shadow.normalBias=.008;
@@ -95,7 +95,7 @@ function setSelection(o){if(selected===o)return;tc.detach();selected=o;if(!o){se
 function snapshotState(){if(!root)return null;return root.children.map(o=>({id:o.userData.layoutId,source:o.userData.source,n:o.name,p:o.position.toArray(),q:o.quaternion.toArray(),s:o.scale.toArray(),v:o.userData.layoutVisible!==false,locked:locked.has(o)}))}
 function validateState(a){
  if(!Array.isArray(a)||a.length>2000)throw new Error('Invalid layout');
- const ids=new Set();return a.map(x=>{
+ const retired=new Set(["Display_Main", "Display_Screen", "Display_Stand", "Display_Stand001", "Rail_West_Foot_0", "Rail_West_Foot_1", "Rail_West_Foot_2", "Rail_West_Foot_3", "Rail_West_Foot_4", "Rail_West_Foot_5", "Rail_West_Mid", "Rail_West_Mid001", "Rail_West_Mid002", "Rail_West_Mid003", "Rail_West_Post_0", "Rail_West_Post_1", "Rail_West_Post_2", "Rail_West_Post_3", "Rail_West_Post_4", "Rail_West_Post_5", "Rail_West_Top_0", "Rail_West_Top_1", "Rail_West_Top_2", "Rail_West_Top_3"]);const ids=new Set();return a.filter(x=>!retired.has(x?.source||x?.n)).map(x=>{
  const source=x.source||x.n; const id=x.id||source;
  if(!templates.has(source)||typeof id!=='string'||ids.has(id)||typeof x.n!=='string')throw new Error('Unknown or duplicate object');ids.add(id);
  for(const [k,n] of [['p',3],['q',4],['s',3]])if(!Array.isArray(x[k])||x[k].length!==n||!x[k].every(v=>Number.isFinite(v)&&Math.abs(v)<10000))throw new Error('Invalid transform');
