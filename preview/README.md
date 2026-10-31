@@ -69,3 +69,7 @@ Use Reset to see the revised default chair elevations. Loading older saved furni
 ## Photo-guided surfaces
 
 Updated cream beadboard, tan wall panels, textured off-white acoustic panels, golden cabinets, oak trim and worn upper railing paint. Carpet tint is more neutral. These are synthetic approximations guided by photographs, not original room photos used as textures. Object identities, furniture positions and measured dimensions are unchanged.
+
+## Lighting and architectural detail
+
+Finer blinds, window sills, chair-rail molding, rubber wall bases, cabinet reveals and door hardware improve the close views. Ambient fill is reduced and shadows softened. Shapes and positions of small details remain approximate. Furniture dimensions and pivots are unchanged; older coarse blinds are ignored when importing saved layouts.
