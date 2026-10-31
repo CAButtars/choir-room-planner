@@ -54,6 +54,14 @@ The inner riser arc now has an 18-foot span at its provisional straight-end junc
 
 These dimensions come from approximate phone measurements, with some endpoint interpretation still pending. Other tiers, access steps and ceiling dimensions remain under review. Piano shapes remain simplified. Existing furniture IDs and pivots are retained; resized furniture may require spacing adjustments in tightly packed layouts. Old protected display and removed window-side railing records are ignored when restoring previous preview saves. Export JSON before updating for a backup. Original photographs, screen content and scan remain private.
 
-## Endpoint reconciliation
+## Confirmed measurements
 
-Video review identifies the 9 ft 6 in reading as upper-wall height and 9 ft 2 in as local alcove floor-to-ceiling height. A conditional front-height chain suggests about 18 ft 7.5 in–18 ft 8 in; the original 26 ft 10 in control is no longer used for fitting. The scan roof remains unchanged. Upper landing railing height now follows the repeated 25-inch phone measurement; the stair-end slope and bay spacing remain estimated. Local access-step readings and five scan elevation bands still require geometric correspondence, so tier heights were not forced to agree. References and detailed evidence remain private.
+The latest clarification withdraws the 9 ft 6 in reading as a vertical control: it is diagonal. The front ceiling retains the provisional scan plane, approximately 18 ft 2 in at the front corner.
+
+The highest platform is now 24.5 inches above the main floor. Intermediate levels retain provisional scan-derived proportions. Four side-stair rises were confirmed, but their relationship to the five scan surface bands is unresolved; the current model does not yet reproduce the confirmed four-rise stairway. Three 36-inch seating depths and unequal 23-inch/18-inch rear strips remain local fitting constraints.
+
+Both window pairs are 80 inches wide with center dividers. Rear cabinets are 24 inches deep. Upright piano body height is 41 inches excluding wheels; modeled total height is an estimated 43 inches. Display housing includes the frame; bottom edge is 38 inches above floor. Its shelf is 30 inches wide, not 30 inches high.
+
+Desk alcove spans of 47 and 59 inches remain unresolved and may use different endpoints. Measured door leaves and glass widths are distinct from framed openings. Original references and editable Blender master remain private.
+
+Use Reset to see the revised default chair elevations. Loading older saved furniture transforms preserves their original heights, which may need adjustment after the platform correction. Export a backup before resetting.
