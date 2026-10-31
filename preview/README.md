@@ -77,3 +77,7 @@ Finer blinds, window sills, chair-rail molding, rubber wall bases, cabinet revea
 ## Doors and inward front-wall lean
 
 Glazed front practice doors, solid side-room and desk-alcove doors, and paired main-entrance leaves replace generic or missing openings. The upper front wall now leans inward using a provisional scan fit; locations and angle remain approximate. Rounded piano edges and smoother tubular frames improve close views. Use **Menu → Face front wall** to inspect. Deep alcove geometry and side-stair topology remain unresolved.
+
+## Placement review and teacher desk
+
+The desk-recess door/window now occupy its back wall. The upright is centered beneath a 28-inch glass pane, and a single doorway is restored between it and the paired entrance. Positions remain approximate. A separate movable teacher desk uses the measured 58 x 29.5 x 29.5-inch body with brown panels, yellow-gold top and metal frame. Use **Menu → Desk area** to inspect. Older furniture saves retain previous positions; export a backup and Reset to see corrected defaults.
