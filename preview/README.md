@@ -73,3 +73,7 @@ Updated cream beadboard, tan wall panels, textured off-white acoustic panels, go
 ## Lighting and architectural detail
 
 Finer blinds, window sills, chair-rail molding, rubber wall bases, cabinet reveals and door hardware improve the close views. Ambient fill is reduced and shadows softened. Shapes and positions of small details remain approximate. Furniture dimensions and pivots are unchanged; older coarse blinds are ignored when importing saved layouts.
+
+## Doors and inward front-wall lean
+
+Glazed front practice doors, solid side-room and desk-alcove doors, and paired main-entrance leaves replace generic or missing openings. The upper front wall now leans inward using a provisional scan fit; locations and angle remain approximate. Rounded piano edges and smoother tubular frames improve close views. Use **Menu → Face front wall** to inspect. Deep alcove geometry and side-stair topology remain unresolved.
