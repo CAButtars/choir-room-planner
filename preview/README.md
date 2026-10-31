@@ -81,3 +81,5 @@ Glazed front practice doors, solid side-room and desk-alcove doors, and paired m
 ## Placement review and teacher desk
 
 The desk-recess door/window now occupy its back wall. The upright is centered beneath a 28-inch glass pane, and a single doorway is restored between it and the paired entrance. Positions remain approximate. A separate movable teacher desk uses the measured 58 x 29.5 x 29.5-inch body with brown panels, yellow-gold top and metal frame. Use **Menu → Desk area** to inspect. Older furniture saves retain previous positions; export a backup and Reset to see corrected defaults.
+
+Opening reconciliation: three front-wall doors (two glazed, one solid), two interior windows on the upright side, corrected side-room sequence, and a drinking-fountain recess. Interior window headers, pale upright finish and alcove folding table refined. Door/window counts follow the supplied photo/video review; exact spacing and unresolved riser/alcove dimensions remain provisional.
