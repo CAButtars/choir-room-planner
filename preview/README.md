@@ -65,3 +65,7 @@ Both window pairs are 80 inches wide with center dividers. Rear cabinets are 24 
 Desk alcove spans of 47 and 59 inches remain unresolved and may use different endpoints. Measured door leaves and glass widths are distinct from framed openings. Original references and editable Blender master remain private.
 
 Use Reset to see the revised default chair elevations. Loading older saved furniture transforms preserves their original heights, which may need adjustment after the platform correction. Export a backup before resetting.
+
+## Photo-guided surfaces
+
+Updated cream beadboard, tan wall panels, textured off-white acoustic panels, golden cabinets, oak trim and worn upper railing paint. Carpet tint is more neutral. These are synthetic approximations guided by photographs, not original room photos used as textures. Object identities, furniture positions and measured dimensions are unchanged.
