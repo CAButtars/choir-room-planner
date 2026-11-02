@@ -87,3 +87,5 @@ Opening reconciliation: three front-wall doors (two glazed, one solid), two inte
 Detail pass: folded riser nosings with grip strips, alcove sill/header trim and downlight, chair glides/frame braces, and desk drawer seams/leveling feet. Profiles are photo-based approximations; unresolved riser heights and alcove dimensions are retained.
 
 Alcove measurement pass: approximately 6 ft 8 in opening, 5 ft 4 in lower right depth, and a separate approximately five-inch projecting header. Upper and lower measurement endpoints remain distinct. Main ceiling uses a provisional 19 ft high point; exact angles and small width differences remain unresolved.
+
+Furnishing pass: editable music stands/cart, blue alcove and rolling desk chairs, folding tables; piano hardware, clock/outlets/switches/labels, alcove panel, deeper window/blind details and adjusted daylight/contact shadows. Counts, minor fixture locations and new furniture sizes remain photo-guided estimates. New stands and tables visibility controls added.
