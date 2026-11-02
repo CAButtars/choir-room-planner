@@ -85,3 +85,5 @@ The desk-recess door/window now occupy its back wall. The upright is centered be
 Opening reconciliation: three front-wall doors (two glazed, one solid), two interior windows on the upright side, corrected side-room sequence, and a drinking-fountain recess. Interior window headers, pale upright finish and alcove folding table refined. Door/window counts follow the supplied photo/video review; exact spacing and unresolved riser/alcove dimensions remain provisional.
 
 Detail pass: folded riser nosings with grip strips, alcove sill/header trim and downlight, chair glides/frame braces, and desk drawer seams/leveling feet. Profiles are photo-based approximations; unresolved riser heights and alcove dimensions are retained.
+
+Alcove measurement pass: approximately 6 ft 8 in opening, 5 ft 4 in lower right depth, and a separate approximately five-inch projecting header. Upper and lower measurement endpoints remain distinct. Main ceiling uses a provisional 19 ft high point; exact angles and small width differences remain unresolved.
