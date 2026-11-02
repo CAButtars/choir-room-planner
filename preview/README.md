@@ -89,3 +89,5 @@ Detail pass: folded riser nosings with grip strips, alcove sill/header trim and 
 Alcove measurement pass: approximately 6 ft 8 in opening, 5 ft 4 in lower right depth, and a separate approximately five-inch projecting header. Upper and lower measurement endpoints remain distinct. Main ceiling uses a provisional 19 ft high point; exact angles and small width differences remain unresolved.
 
 Furnishing pass: editable music stands/cart, blue alcove and rolling desk chairs, folding tables; piano hardware, clock/outlets/switches/labels, alcove panel, deeper window/blind details and adjusted daylight/contact shadows. Counts, minor fixture locations and new furniture sizes remain photo-guided estimates. New stands and tables visibility controls added.
+
+Riser measurement pass: three-foot chair-bearing depths with independent 20-inch railing-side top, 30-inch railing-side next-down, and 30-inch window-side top straight ends. Default chair positions and railing landing transition updated; total rise retained. Export saved arrangements before Reset to inspect new default chair placement.
