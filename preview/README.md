@@ -94,3 +94,6 @@ Riser measurement pass: three-foot chair-bearing depths with independent 20-inch
 
 ## Polish 7
 Photo-guided grand and upright cabinet details, smoother tubular furniture and rail joints, classroom paper and table accessories, finer carpet and restrained piano reflections. Optional 3-inch/15-degree snapping, named local layouts, and selected-object bounding dimensions. Existing measured geometry and saved furniture transforms retained. Geometry, placement, migration, mobile workflow, and layout controls checked; fine details remain approximate.
+
+## Piano outline correction
+Removed the exaggerated inward waist from the grand case, lid and rim. Smooth continuous taper into the tail; measured 58-inch width and 65-inch length retained and checked. Preview render inspected.
