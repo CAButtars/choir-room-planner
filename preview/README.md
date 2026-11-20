@@ -91,3 +91,6 @@ Alcove measurement pass: approximately 6 ft 8 in opening, 5 ft 4 in lower right 
 Furnishing pass: editable music stands/cart, blue alcove and rolling desk chairs, folding tables; piano hardware, clock/outlets/switches/labels, alcove panel, deeper window/blind details and adjusted daylight/contact shadows. Counts, minor fixture locations and new furniture sizes remain photo-guided estimates. New stands and tables visibility controls added.
 
 Riser measurement pass: three-foot chair-bearing depths with independent 20-inch railing-side top, 30-inch railing-side next-down, and 30-inch window-side top straight ends. Default chair positions and railing landing transition updated; total rise retained. Export saved arrangements before Reset to inspect new default chair placement.
+
+## Polish 7
+Photo-guided grand and upright cabinet details, smoother tubular furniture and rail joints, classroom paper and table accessories, finer carpet and restrained piano reflections. Optional 3-inch/15-degree snapping, named local layouts, and selected-object bounding dimensions. Existing measured geometry and saved furniture transforms retained. Geometry, placement, migration, mobile workflow, and layout controls checked; fine details remain approximate.
